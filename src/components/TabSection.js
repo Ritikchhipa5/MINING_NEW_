@@ -79,13 +79,29 @@ export default function TabSection() {
     setAccountData(data);
   }
   let AccountValue = [
-    { title: "Total output", value: Data!==null?parseFloat(Data.Withdrawable).toFixed(3)+" USDT":" 0 USDT" },
-    // { title: "Amount", value: Data!==null?parseFloat(Data.Balance).toFixed(3)+" USDT":" 0 USDT" },
-    {title:"Hash Aid",value:"0.0 USDT"},
-    {title:"Total Participant", value:DataSet!==null ?(parseFloat(DataSet.TotalParticipation).toFixed(3))+" USDT":" 0 USDT"},
-    // { title: "Current Hashrate", value: "145.35(PH/s)" },
-    // { title: "User Earn", value: Data!==null?parseFloat(Data.Withdrawable-Data.Balance).toFixed(3)+" USDT":" 0 USDT"},
-  ];
+    {
+      title: "Total output",
+      value:
+        Data !== null
+          ? parseFloat(Data.TotalOutput).toFixed(3) + " USDT"
+          : " 0 USDT",
+    },
+    {
+      title: "Withdrawable",
+      value:
+        Data !== null
+          ? parseFloat(Data.Withdrawable).toFixed(3) + " USDT"
+          : " 0 USDT",
+    },
+    { title: "Hash Aid", value: "0.0 USDT" },
+    {
+      title: "Total Participant",
+      value:
+        DataSet !== null
+          ? parseFloat(DataSet.TotalParticipation).toFixed(3) + " USDT"
+          : " 0 USDT",
+    },
+  ]
   let MiningData = [
     { title: "Total output", value: "77,896,416.60 USDT" },
     { title: "Current Hashrate", value: "145.35(PH/s)" },
@@ -114,7 +130,7 @@ export default function TabSection() {
           </div>
             <div>
               {MiningData.map((item, key) => (
-                <div className="flex justify-between mb-4 text-xl">
+                <div className="flex justify-between mb-4 text-sm md:text-xl">
                   <span className="text-[#a1a1b3]">{item.title}</span>
                   <span className="text-[#2082fe] font-bold">{item.value}</span>
                 </div>
@@ -128,15 +144,17 @@ export default function TabSection() {
           value={value}
           index={1}
         >
-          <div className="w-full text-left">
+        <div className="w-full text-left">
             <h3 className="mb-2 text-2xl font-semibold">Pool Data</h3>
-            <div className="flex justify-between mb-4 text-xl">
-            <span className="text-[#a1a1b3]">Wallet Balance</span>
-            <span className="text-[#2082fe] font-bold">{parseFloat(AccountData / Math.pow(10, 18)).toFixed(3)} USDT</span>
-          </div>
+            <div className="flex justify-between mb-4 text-sm md:text-xl">
+              <span className="text-[#a1a1b3]">Wallet Balance</span>
+              <span className="text-[#2082fe] font-bold">
+                {parseFloat(AccountData / Math.pow(10, 18)).toFixed(3)} USDT
+              </span>
+            </div>
             <div>
               {AccountValue.map((item, key) => (
-                <div className="flex justify-between mb-4 text-xl">
+                <div className="flex justify-between mb-4 text-sm md:text-xl">
                   <span className="text-[#a1a1b3]">{item.title}</span>
                   <span className="text-[#2082fe] font-bold">{item.value}</span>
                 </div>
