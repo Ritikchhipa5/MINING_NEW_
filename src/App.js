@@ -63,11 +63,8 @@ return(
   }else{
     return (
       <div className="App">
-  
-  
-  
-        <Header />
-        <HeroSection isConnect={isConnect} inviteCode={inviteCode} inviteUserAddress={inviteUserAddress} setIsLoading={setIsLoading} setInviteCode={setInviteCode}/>
+        <Header/>
+        <HeroSection isConnect={isConnect} isLoading={isLoading} inviteCode={inviteCode} inviteUserAddress={inviteUserAddress} setIsLoading={setIsLoading} setInviteCode={setInviteCode}/>
         <TabSection isConnect={isConnect} setIsLoading={setIsLoading}/>
         <TabSection2 isConnect={isConnect}setIsLoading={setIsLoading} />
         <FAQ />

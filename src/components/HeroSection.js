@@ -10,12 +10,18 @@ function HeroSection(props) {
   const [Data, setData] = React.useState(null);
   const [userInviteCode, setUserInviteCode] = React.useState("");
   const [MiningStatus, setMiningStatus] = React.useState(false);
+  const [isApproveDone, setIsApproveDone] = React.useState(false)
   console.log(window.location.origin)
   let web3 = new Web3("https://ropsten.infura.io/v3/1da2a4aeb9a949d586c8bcbf4a43b8b6");
   React.useEffect(() => {
     if (active) {
       web3 = new Web3(library.provider);
       getData()
+     
+    }
+    if(!active){
+    
+      setMiningStatus(false);
     }
 
   }, [active])
@@ -25,6 +31,7 @@ function HeroSection(props) {
     let inviteCode = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.userInviteCode(account).call();
     setUserInviteCode(inviteCode.inviteCode)
     setData(data);
+    parseInt(data.totalParticipation) === 0 ?setMiningStatus(false):setMiningStatus(true)
   }
 
   async function Mining() {
@@ -36,22 +43,22 @@ function HeroSection(props) {
       if (parseInt(Data.totalParticipation) === 0) {
         console.log(props.inviteUserAddress)
         let ad = props.inviteUserAddress;
+        await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.approve("0x50021f7e60caa0C25575c22D66CEEDdfF8BF8A35", web3.utils.toWei("10000000000000000000", 'ether')).send({ from: account })
+        .then(() => setIsApproveDone(true)).catch(()=>setIsApproveDone(false))
         let balance = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(account).call()
-        if(parseFloat(balance)/Math.pow(10,18)>=10){
-          
-      
-        props.setIsLoading(true)
-
-        new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.miningPool(ad.toLowerCase()).send({ from: account })
-          .then((res) => {
-            setMiningStatus(true);
-            props.setIsLoading(false);
-            console.log(res)
-          }).catch(() => {
-            setMiningStatus(false);
-            props.setIsLoading(false)
-          });
-        }else{
+        if(isApproveDone){
+        if (parseFloat(balance) / Math.pow(10, 18) >= 10) {
+          props.setIsLoading(true)
+          new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.miningPool(ad.toLowerCase()).send({ from: account })
+            .then((res) => {
+              setMiningStatus(true);
+              props.setIsLoading(false);
+              console.log(res)
+            }).catch(() => {
+              setMiningStatus(false);
+              props.setIsLoading(false)
+            });
+        } else {
           props.setIsLoading(false)
           setMiningStatus(false)
           Swal.fire(
@@ -59,7 +66,15 @@ function HeroSection(props) {
             'You dont have minimum mining fees.',
             'warning'
           )
-  
+
+        }   }else{
+          setMiningStatus(false)
+          props.setIsLoading(false)
+          Swal.fire(
+            'Warning',
+            'Approve is not done',
+            'warning'
+          )
         }
       } else {
         setMiningStatus(true)
@@ -108,7 +123,7 @@ function HeroSection(props) {
               'Please Connect to wallet',
               'warning'
             ) : Swal.fire(
-              'Invite Code',
+              'Invite Code\nYou will get 10% reward',
               window.location.origin + "/" + userInviteCode,
               'success'
             )}>
