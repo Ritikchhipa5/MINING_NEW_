@@ -19,6 +19,7 @@ function App() {
   const { active, library, account } = useWeb3React();
   const [isConnect, setisConnect] = React.useState(false);
   const [inviteCode,setInviteCode] = React.useState("")
+  const [update, againUpdate] = React.useState(false);
   const [isLoading,setIsLoading] = React.useState(false);
   const [inviteUserAddress, setInviteUserAddress]=React.useState("0x0000000000000000000000000000000000000000")
   let web3 = new Web3("https://ropsten.infura.io/v3/1da2a4aeb9a949d586c8bcbf4a43b8b6");
@@ -65,8 +66,10 @@ return(
       <div className="App">
         <Header/>
         <HeroSection isConnect={isConnect} isLoading={isLoading} inviteCode={inviteCode} inviteUserAddress={inviteUserAddress} setIsLoading={setIsLoading} setInviteCode={setInviteCode}/>
-        <TabSection isConnect={isConnect} setIsLoading={setIsLoading}/>
-        <TabSection2 isConnect={isConnect}setIsLoading={setIsLoading} />
+        <TabSection isConnect={isConnect} setIsLoading={setIsLoading}
+          update={update}/>
+        <TabSection2 isConnect={isConnect}setIsLoading={setIsLoading}    againUpdate={againUpdate}
+          update={update}/>
         <FAQ />
         <FooterSection />
   

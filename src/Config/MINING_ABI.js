@@ -1,4 +1,17 @@
-export const MINING_ABI =[
+export const MINING_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_inviterAddress",
+				"type": "address"
+			}
+		],
+		"name": "miningPool",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [
 			{
@@ -9,6 +22,38 @@ export const MINING_ABI =[
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "alreadWithdraw",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -68,6 +113,19 @@ export const MINING_ABI =[
 	},
 	{
 		"inputs": [],
+		"name": "getinviteCode",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getReport",
 		"outputs": [
 			{
@@ -98,19 +156,6 @@ export const MINING_ABI =[
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getinviteCode",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -163,19 +208,6 @@ export const MINING_ABI =[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_inviterAddress",
-				"type": "address"
-			}
-		],
-		"name": "miningPool",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -218,27 +250,9 @@ export const MINING_ABI =[
 				"internalType": "uint256",
 				"name": "inviteCode",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "alreadyUsed",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdraw",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

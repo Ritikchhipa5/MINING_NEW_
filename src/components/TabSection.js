@@ -43,7 +43,7 @@ function a11yProps(index) {
   };
 }
 
-export default function TabSection() {
+export default function TabSection(props) {
   const [value, setValue] = React.useState(0);
   const { active, library, account } = useWeb3React();
   const [Data, setData] = React.useState(null);
@@ -56,14 +56,27 @@ export default function TabSection() {
       getAccountData();
       getData();
     }
-
-  }, [active])
+  }, [active, props.update]);
 
 
   async function getData() {
-    let data = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.getWithdrawable(account).call();
-    let data2 = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(account).call();
-    setData({ Withdrawable: parseInt(data)/Math.pow(10,18), Balance: parseInt(data2)/Math.pow(10,18)});
+    let data = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods
+      .getWithdrawable(account)
+      .call();
+    let data2 = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods
+      .balanceOf(account)
+      .call();
+    let data3 = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods
+      .alreadWithdraw(account)
+      .call();
+    let total = parseFloat(data3) + parseFloat(data); // parseFloat(Data.Withdrawable).toFixed(3)
+
+    console.log(data3, data, total);
+    setData({
+      Withdrawable: parseInt(data) / Math.pow(10, 18),
+      Balance: parseInt(data2) / Math.pow(10, 18),
+      TotalOutput: parseInt(total) / Math.pow(10, 18),
+    });
     getAccountData();
   }
 
@@ -72,10 +85,19 @@ export default function TabSection() {
     setValue(newValue);
   };
   async function getAccountData() {
-    let data = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(account).call();
-    let dataset = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.dataset(account).call();
+    let data = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods
+      .balanceOf(account)
+      .call();
+    let dataset = await new web3.eth.Contract(
+      MINING_ABI,
+      MINING_CONTRCT
+    ).methods
+      .dataset(account)
+      .call();
     console.log(dataset);
-    setDataSet({ TotalParticipation:dataset.totalParticipation/Math.pow(10,18)})
+    setDataSet({
+      TotalParticipation: dataset.totalParticipation / Math.pow(10, 18),
+    });
     setAccountData(data);
   }
   let AccountValue = [
