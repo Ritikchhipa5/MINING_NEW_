@@ -17,23 +17,28 @@ function HeroSection(props) {
     if (active) {
       web3 = new Web3(library.provider);
       getData()
-     
+
     }
-    if(!active){
-    
+    if (!active) {
       setMiningStatus(false);
     }
 
   }, [active])
 
   async function getData() {
-    let data = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.dataset(account).call();
-    let inviteCode = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.userInviteCode(account).call();
-    setUserInviteCode(inviteCode.inviteCode)
+    let data = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods
+      .dataset(account)
+      .call();
+    let inviteCode = await new web3.eth.Contract(
+      MINING_ABI,
+      MINING_CONTRCT
+    ).methods
+      .userInviteCode(account)
+      .call();
+    console.log(inviteCode)
+    setUserInviteCode(inviteCode);
     setData(data);
-    parseInt(data.totalParticipation) === 0 ?setMiningStatus(false):setMiningStatus(true)
   }
-
   async function Mining() {
     if (Data !== null) {
       if (active) {
@@ -43,31 +48,38 @@ function HeroSection(props) {
       if (parseInt(Data.totalParticipation) === 0) {
         console.log(props.inviteUserAddress)
         let ad = props.inviteUserAddress;
-        await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.approve("0x50021f7e60caa0C25575c22D66CEEDdfF8BF8A35", web3.utils.toWei("10000000000000000000", 'ether')).send({ from: account })
-        .then(() => setIsApproveDone(true)).catch(()=>setIsApproveDone(false))
         let balance = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(account).call()
-        if(isApproveDone){
-        if (parseFloat(balance) / Math.pow(10, 18) >= 10) {
-          props.setIsLoading(true)
-          new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.miningPool(ad.toLowerCase()).send({ from: account })
-            .then((res) => {
-              setMiningStatus(true);
-              props.setIsLoading(false);
-              console.log(res)
-            }).catch(() => {
-              setMiningStatus(false);
+        props.setIsLoading(true)
+        await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.approve("0x50021f7e60caa0C25575c22D66CEEDdfF8BF8A35", web3.utils.toWei("10000000000000000000", 'ether')).send({ from: account })
+          .then(async () => {
+            setIsApproveDone(true);
+            if (parseFloat(balance) / Math.pow(10, 18) >= 10) {
+              props.setIsLoading(true)
+             await  new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.miningPool(ad.toLowerCase()).send({ from: account })
+                .then((res) => {
+                  setIsApproveDone(true)
+                  setMiningStatus(true);
+                  props.setIsLoading(false);
+                  console.log(res)
+                }).catch(() => {
+                  setMiningStatus(false);
+                  props.setIsLoading(false)
+                  setIsApproveDone(true);
+                });
+            } else {
+              setIsApproveDone(true);
               props.setIsLoading(false)
-            });
-        } else {
-          props.setIsLoading(false)
-          setMiningStatus(false)
-          Swal.fire(
-            'Warning',
-            'You dont have minimum mining fees.',
-            'warning'
-          )
+              setMiningStatus(false)
+              Swal.fire(
+                'Warning',
+                'You dont have minimum mining fees.',
+                'warning'
+              )
 
-        }   }else{
+            }
+          }).catch(() => setIsApproveDone(false))
+    
+        if (isApproveDone) {
           setMiningStatus(false)
           props.setIsLoading(false)
           Swal.fire(

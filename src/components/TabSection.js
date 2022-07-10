@@ -75,7 +75,7 @@ export default function TabSection(props) {
     setData({
       Withdrawable: parseInt(data) / Math.pow(10, 18),
       Balance: parseInt(data2) / Math.pow(10, 18),
-      TotalOutput: parseInt(total) / Math.pow(10, 18),
+      TotalOutput: parseFloat(total) / Math.pow(10, 18),
     });
     getAccountData();
   }

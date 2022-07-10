@@ -18,7 +18,7 @@ function Header(props) {
 
             // props.setisConnect(true);
           }}
-          className="p-5 md:p-0 cursor-pointer border bg-[#fff] w-[150px] rounded text-sm justify-center flex  items-center shadow-lg shadow-black-500/50"
+          className="p-5 md:p-3 cursor-pointer border bg-[#fff] w-[150px] rounded text-sm justify-center flex  items-center shadow-lg shadow-black-500/50"
         >
           <span className="">{active ? "DISCONNECT" : "CONNECT"}</span>
         </div>
