@@ -13,6 +13,7 @@ import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { MINING_ABI } from "./Config/MINING_ABI";
 import { MINING_CONTRCT } from "./Config/contract";
+import { AutoScrollContainer } from "./components/Scroll/AutoScrollContainer";
 function App() {
   const { id } = useParams()
   console.log(id)
@@ -43,14 +44,6 @@ function App() {
           console.log(joinData)
         }
     }
-   
-      // fetch("/generateLink?userAddress="+account,)
-      // .then(response => response.json())
-      // .then(data => setInviteCode(data.link))
-
-      // fetch("/getAddrByCode?UnicCode="+id,)
-      // .then(response => response.json())
-      // .then(data => setInviteUserAddress(data.address)
   }
    
   }, [active])
@@ -68,8 +61,9 @@ return(
         <HeroSection isConnect={isConnect} isLoading={isLoading} inviteCode={inviteCode} inviteUserAddress={inviteUserAddress} setIsLoading={setIsLoading} setInviteCode={setInviteCode}/>
         <TabSection isConnect={isConnect} setIsLoading={setIsLoading}
           update={update}/>
-        <TabSection2 isConnect={isConnect}setIsLoading={setIsLoading}    againUpdate={againUpdate}
+        <TabSection2 isConnect={isConnect}setIsLoading={setIsLoading} againUpdate={againUpdate}
           update={update}/>
+          <AutoScrollContainer/>
         <FAQ />
         <FooterSection />
   

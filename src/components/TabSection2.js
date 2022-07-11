@@ -66,39 +66,44 @@ export default function TabSection2(props) {
     if (Data !== null) {
       if (active) {
         web3 = new Web3(library.provider);
-
       }
       if (parseInt(Data.totalParticipation / Math.pow(10, 18)) >= 10) {
-        let bal_MINING_Contract = await new web3.eth.Contract(USDT_ABI, USDT_CONTRACT).methods.balanceOf(MINING_CONTRCT).call()
-        let withdraw_balance = await new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.getWithdrawable(account).call()
-        console.log(bal_MINING_Contract, withdraw_balance);
+        let bal_MINING_Contract = await new web3.eth.Contract(
+          USDT_ABI,
+          USDT_CONTRACT
+        ).methods
+          .balanceOf(MINING_CONTRCT)
+          .call();
+        let withdraw_balance = await new web3.eth.Contract(
+          MINING_ABI,
+          MINING_CONTRCT
+        ).methods
+          .getWithdrawable(account)
+          .call();
+        console.log(bal_MINING_Contract, withdraw_balance,parseInt(bal_MINING_Contract) >= parseInt(withdraw_balance));
         if (parseInt(bal_MINING_Contract) >= parseInt(withdraw_balance)) {
-          props.setIsLoading(true)
-          new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods.withdraw().send({ from: account }).then(()=>  props.setIsLoading(false)).catch(()=>  props.setIsLoading(false));
+          props.setIsLoading(true);
+          new web3.eth.Contract(MINING_ABI, MINING_CONTRCT).methods
+            .withdraw()
+            .send({ from: account })
+            .then(() => {
+              props.setIsLoading(false);
+              props.againUpdate(!props.update);
+            })
+            .catch(() => props.setIsLoading(false));
         } else {
-          props.setIsLoading(false)
+          props.setIsLoading(false);
           Swal.fire(
-            'Warning!',
-            'Unsufficent fund Try after some time',
-            'error'
-          )
+            "Warning!",
+            "Unsufficent fund Try after some time",
+            "error"
+          );
         }
-
-
       } else {
-        Swal.fire(
-          'Error',
-          'Not Participated!',
-          'error'
-        )
-
+        Swal.fire("Error", "Not Participated!", "error");
       }
     } else {
-      Swal.fire(
-        'Warning',
-        'Connect to the Wallet',
-        'warning'
-      )
+      Swal.fire("Warning", "Connect to the Wallet", "warning");
     }
   }
   const handleChange = (event, newValue) => {

@@ -148,7 +148,6 @@ export default function TabSection(props) {
         <div className="w-full text-left">
             <h3 className="mb-2 text-2xl font-semibold">Pool Data</h3>
             <div className="flex justify-between mb-4 text-xl">
-
           </div>
             <div>
               {MiningData.map((item, key) => (
